@@ -31,6 +31,7 @@ public class Driver {
 			}
 			
 			sqlDatabase.println("('repen833');");
+			sqlDatabase.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
