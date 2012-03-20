@@ -30,7 +30,7 @@
 
 			if(isset($newPassword))
 			{
-				$newPassword = htmlentities($newPassword, ENT_QUOTES);
+				$newPassword = filterX($newPassword, ENT_QUOTES);
 				mysql_query("INSERT INTO dictionary (password) VALUES ('".$newPassword."')");
 			}
 
@@ -47,6 +47,22 @@
 			}
 
 			mysql_close($con);
+
+			//Created by Logic in #theblackmatrix
+			function filterX($value)
+			{
+				$value = trim($value);
+				if( get_magic_quotes_gpc()) 
+				{
+					$value = stripslashes($value);	
+				}
+				$value = strtr($value, array_flip(get_html_translation_table(HTML_ENTITIES)));
+				$value = strip_tags($value);
+				$value = mysql_escape_string($value);
+				$value = htmlspecialchars($value);
+
+				return $value;
+			}
 
 		?>
 	</body>
