@@ -30,6 +30,7 @@
 
 			if(isset($newPassword))
 			{
+				$newPassword = htmlentities($newPassword, ENT_QUOTES);
 				mysql_query("INSERT INTO dictionary (password) VALUES ('".$newPassword."')");
 			}
 
