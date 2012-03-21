@@ -1,3 +1,6 @@
+<?php
+	if (!(array_key_exists('mode', $_GET) && !($_GET['mode'] == "raw"))) {
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
@@ -6,20 +9,25 @@
 		<title>#theblackmatrix Password List</title>
 	</head>
 	<body>
+<?php
+	}
+?>
 		<?php
 			$passwordList = "default"; // Name of the password list
-			mkdir("db"); if (file_exists("db")) $passwordList = "db/".$passwordList; // Using a db folder
+			if (!file_exists("db")) mkdir("db"); // Creating the db folder if it doesn't exist
+			if (file_exists("db")) $passwordList = "db/".$passwordList; // Using a db folder
+			else die("Please set the right permissions on the 'db' folder.");
 			$passwordList = $passwordList.".db"; // Using a .db extension
 			
 			// Listing all passwords
-			if ($_GET['action'] == "list") {
+			if (array_key_exists('action', $_GET) && $_GET['action'] == "list") {
 				foreach (file($passwordList) as $linenum => $line) {
-					if ($_GET['mode'] == "linenum") print("#<b>".$linenum.":</b> ");
+					if (array_key_exists('mode', $_GET) && $_GET['mode'] == "linenum") print("#<b>".$linenum.":</b> ");
 					print(htmlspecialchars($line));
-					if ($_GET['mode'] != "raw") print("<br />");
+					if (!(array_key_exists('mode', $_GET) && !($_GET['mode'] == "raw"))) print("<br />");
 					print("\n");
 				}
-				exit();
+				if (array_key_exists('mode', $_GET) && $_GET['mode'] == "raw") exit();
 			}
 			
 			// Adding a new password			
@@ -28,14 +36,15 @@
 			// TODO: Use AJAX to add passwords on return-key-press and without reload on button press
 			
 			// Adding the password
-			if ($_GET['password']) {
+			if (array_key_exists('password', $_GET)) {
 				$newPassword = trim($_GET['password']); // Removing \n, \r and other stuff
-				fwrite($passwordFile, $newPassword);
+				fwrite($passwordFile, $newPassword."\r\n");
 				fclose($passwordFile);
+				// TODO: Check if the password already exists
 				
 				print("Successfully added '".$newPassword."' to the list!");
 			}
-			if ($_GET['mode'] == "raw") exit(); // Do not display the form in raw-mode
+			if (array_key_exists('mode', $_GET) && $_GET['mode'] == "raw") exit(); // Do not display the form in raw-mode
 		?>
 		<p>
 			<h2>ADD A PASSWORD TO THE LIST: </h2>
