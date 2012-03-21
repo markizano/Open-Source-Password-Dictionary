@@ -28,11 +28,13 @@
 			// TODO: Use AJAX to add passwords on return-key-press and without reload on button press
 			
 			// Adding the password
-			$newPassword = trim($_GET['password']); // Removing \n, \r and other stuff
-			fwrite($passwordFile, $newPassword);
-			fclose($passwordFile);
-			
-			print("Successfully added '".$newPassword."' to the list!");
+			if ($_GET['password']) {
+				$newPassword = trim($_GET['password']); // Removing \n, \r and other stuff
+				fwrite($passwordFile, $newPassword);
+				fclose($passwordFile);
+				
+				print("Successfully added '".$newPassword."' to the list!");
+			}
 			if ($_GET['mode'] == "raw") exit(); // Do not display the form in raw-mode
 		?>
 		<p>
