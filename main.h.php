@@ -19,13 +19,21 @@
  * 
  */
 
-define('_EXEC', 1);
-require 'main.h.php';
+defined('_EXEC') or die(header('HTTP/1.1 404') . <<<HEADER
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+<html><head>
+<title>404 Not Found</title>
+</head><body>
+<h1>Not Found</h1>
+<p>The requested URL $_SERVER[REQUEST_URI] was not found on this server.</p>
+</body></html>
+HEADER
+);
 
-require 'lib/Model.php';
-require 'lib/Views.php';
-require 'lib/Controller.php';
+define('DS', DIRECTORY_SEPARATOR);
+define('BASE_DIR', dirname(__FILE__));
+define('DB_DIR', BASE_DIR . DS . 'db');
 
-$cntl = new Controller;
-$cntl->run();
+# Ensure we can properly include our libraries.
+set_include_path( join( PATH_SEPARATOR, array(BASE_DIR, get_include_path()) ) );
 
