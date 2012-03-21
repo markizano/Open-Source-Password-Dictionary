@@ -33,6 +33,7 @@
 			fclose($passwordFile);
 			
 			print("Successfully added '".$newPassword."' to the list!");
+			if ($_GET['mode'] == "raw") exit(); // Do not display the form in raw-mode
 		?>
 		<p>
 			<h2>ADD A PASSWORD TO THE LIST: </h2>
