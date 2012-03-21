@@ -19,9 +19,11 @@
 			else die("Please set the right permissions on the 'db' folder.");
 			$passwordList = $passwordList.".db"; // Using a .db extension
 			
+			$passwordArray = file($passwordList);
+			
 			// Listing all passwords
 			if (array_key_exists('action', $_GET) && $_GET['action'] == "list") {
-				foreach (file($passwordList) as $linenum => $line) {
+				foreach ($passwordArray as $linenum => $line) {
 					if (array_key_exists('mode', $_GET) && $_GET['mode'] == "linenum") print("#<b>".$linenum.":</b> ");
 					print(htmlspecialchars($line));
 					if (!(array_key_exists('mode', $_GET) && !($_GET['mode'] == "raw"))) print("<br />");
@@ -38,11 +40,12 @@
 			// Adding the password
 			if (array_key_exists('password', $_GET)) {
 				$newPassword = trim($_GET['password']); // Removing \n, \r and other stuff
-				fwrite($passwordFile, $newPassword."\r\n");
-				fclose($passwordFile);
-				// TODO: Check if the password already exists
-				
-				print("Successfully added '".$newPassword."' to the list!");
+				if (!in_array($newPassword."\r\n", $passwordArray)) { // TODO: Is this check fast enough?
+					fwrite($passwordFile, $newPassword."\r\n");
+					fclose($passwordFile);
+					
+					print("Successfully added '".$newPassword."' to the list!");
+				} else print("This password already exists in the database!");
 			}
 			if (array_key_exists('mode', $_GET) && $_GET['mode'] == "raw") exit(); // Do not display the form in raw-mode
 		?>
