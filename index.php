@@ -15,55 +15,32 @@
 		<br />
 		<h2>Current List: </h2>
 		<?php
-			//When running this .php script, there should be a file in the same directory
-			//named server.php built in the following format:
-			//<php
-			//$server_addr = SERVER ADDRESS (usually "127.0.0.1");
-			//$user_name = USER_NAME (for example "root");
-			//$mysql_password = PASSWORD (for example "toor");
-			//>
-			require("server.php");	
-			$con = mysql_connect($server_addr,$user_name,$mysql_password);
-			mysql_select_db("passwordDictionary", $con);
-
-			$newPassword = $_GET['password'];
-
-			if(isset($newPassword))
-			{
-				$newPassword = filterX($newPassword, ENT_QUOTES);
-				mysql_query("INSERT INTO dictionary (password) VALUES ('".$newPassword."')");
-			}
-
-			if(!$con)
-			{
-				die("Could not connect to server: ".mysql_error());
+			$passwordList = "default"; // Name of the password list
+			// $passwordList = "db/".$passwordList // Using a db folder
+			// $passwordList = $passwordList.".db" // Using a .db extension
+			
+			// Listing all passwords
+			if ($_GET['action'] == "list") {
+				foreach (file($passwordList) as $linenum => $line) {
+					if ($_GET['mode'] == "linenum") print("#<b>".$linenum.": ");
+					print(htmlspecialchars($line));
+					print("<br />\n");
+				}
+				exit();
 			}
 			
-			$passwordList = mysql_query("SELECT password FROM dictionary");
+			// Adding a new password			
+			$passwordFile = fopen($passwordList, "a");
+			
+			// TODO: Use AJAX to add passwords on return-key-press and without reload on button press
+			
+			$newPassword = trim($_GET['password']); // Removing \n, \r and other stuff
 
-			while($password = mysql_fetch_array($passwordList))
-			{
-				echo $password['password'] . "<br />";
+			if (isset($newPassword)) {
+				fwrite($passwordFile, $newPassword);
 			}
-
-			mysql_close($con);
-
-			//Created by Logic in #theblackmatrix
-			function filterX($value)
-			{
-				$value = trim($value);
-				if( get_magic_quotes_gpc()) 
-				{
-					$value = stripslashes($value);	
-				}
-				$value = strtr($value, array_flip(get_html_translation_table(HTML_ENTITIES)));
-				$value = strip_tags($value);
-				$value = mysql_escape_string($value);
-				$value = htmlspecialchars($value);
-
-				return $value;
-			}
-
+			
+			fclose($passwordFile);
 		?>
 	</body>
 </html>
