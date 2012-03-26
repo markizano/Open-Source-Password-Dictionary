@@ -85,6 +85,7 @@ class Controller
 
                 if ( empty($this->_view->errors) ) {
                     header('Location: ' . parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+                    return $this;
                 }
 
                 print Views::header()

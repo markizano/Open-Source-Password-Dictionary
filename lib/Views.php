@@ -150,25 +150,25 @@ class Views
 
         switch ($this->decorator) {
             case 'xml':
-                isset($this->action) && $this->action != 'raw' && header('Content-Type: text/xml; charset=utf-8');
+                isset($this->action) && $this->action == 'raw' && header('Content-Type: text/xml; charset=utf-8');
                 $output = "<?xml version=\"1.0\" encoding=\"utf-8\" ?>\n<password_list>\n"
                     . join(PHP_EOL, array_map(function($_pw) { // Needs to properly encode the contents.
                         $pw = '';
-                        for ($i = 0; $i < strlen($_pw); ++$i) {
-                            $pw .= sprintf('&#x%X;', ord($_pw{$i}));
-                        }
-                        return "  <password><![CDATA[$pw]]></password>";
+#                        for ($i = 0; $i < strlen($_pw); ++$i) {
+#                            $pw .= sprintf('&#x%X;', ord($_pw{$i}));
+#                        }
+                        return "  <password><![CDATA[$_pw]]></password>";
                     }, $this->password_list)) . PHP_EOL
                     . '</password_list>' . PHP_EOL;
                 break;
 
             case 'json':
-                isset($this->action) && $this->action != 'raw' && header('Content-Type: application/json; charset=utf-8');
+                isset($this->action) && $this->action == 'raw' && header('Content-Type: application/json; charset=utf-8');
                 $output = json_encode($this->password_list);
                 break;
 
             case 'plain':
-                isset($this->action) && $this->action != 'raw' && header('Content-Type: text/plain; charset=utf-8');
+                isset($this->action) && $this->action == 'raw' && header('Content-Type: text/plain; charset=utf-8');
             default:
                 $output = join(PHP_EOL, $this->password_list);
         }
