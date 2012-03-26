@@ -46,3 +46,9 @@ define('DB_DIR', BASE_DIR . DS . 'db');
 # Ensure we can properly include our libraries.
 set_include_path( join( PATH_SEPARATOR, array(BASE_DIR, get_include_path()) ) );
 
+#@TODO: Autoloader.
+require 'lib/Model.php';
+require 'lib/Views.php';
+require 'lib/Controller.php';
+
+

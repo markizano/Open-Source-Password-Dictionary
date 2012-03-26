@@ -29,11 +29,7 @@
  */
 
 define('_EXEC', 1);
-require 'main.h.php';
-
-require 'lib/Model.php';
-require 'lib/Views.php';
-require 'lib/Controller.php';
+require dirname(__FILE__) . '/../main.h.php';
 
 $cntl = new Controller;
 $cntl->run();
