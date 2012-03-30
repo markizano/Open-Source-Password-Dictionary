@@ -1,0 +1,35 @@
+.
+├── app
+├── db
+│   └── default.db
+├── FILES
+├── htdocs
+│   ├── assets
+│   │   ├── css
+│   │   │   └── default.css
+│   │   ├── images
+│   │   └── js
+│   │       ├── default.js
+│   │       ├── index.php
+│   │       └── Kizano
+│   │           ├── Loader.js
+│   │           ├── Registry.js
+│   │           ├── Request.js
+│   │           └── Response.js
+│   ├── debug.php
+│   └── index.php
+├── lib
+│   ├── Controller.php
+│   ├── Model
+│   │   └── Dictionary
+│   │       ├── Collection.php
+│   │       └── File.php
+│   ├── Model.php
+│   ├── Request.php
+│   ├── Response.php
+│   ├── Views
+│   └── Views.php
+├── main.h.php
+└── README
+
+12 directories, 20 files
