@@ -27,8 +27,6 @@
  *
  */
 
-//http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js
-
 typeof(console) !== "undefined" && console.log("GO!"); //DEBUG
 
 // jQuery should be included before we get this far (e.g. it should be in <head> before this is included)

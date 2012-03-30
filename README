@@ -32,3 +32,30 @@ It is designed to be a open source community driven password database that
 resides on the web. The motivation for contribution will be the ability to
 dynamically generate reliable dictionary lists with pre-set parameters.
 
+Depends:
+	- PHP (>= 5.3.6)
+		* Using PDO driver.
+	- MySQL (>= 5.1)
+	- HTML5/CSS
+
+File structure can be found in ./FILES.
+Database structure(s) can be found in app/config/sql/*.
+
+Active discussions take place in a few places:
+    - On IRC, at irc.freenode.net#theblackmatrix
+    - In Google Groups at https://groups.google.com/forum/?fromgroups#!forum/theblackmatrix-password-dictionary
+
+A beta fork of the project can be viewed at http://ospwdict.markizano.net/
+Please note: This is an active development fork of the project from https://github.com/markizano/,
+so pages may not always render. Ping markizano!irc.freenode.net if it's unavailable and you'd like to view a
+working copy of the project.
+~ Currently working on /assets/js/* (as of 2012-03-29)
+
+== Active Development Points:
+
+If you'd like to contribute to the project, some points of interest include the following:
+
+    - Need to import Zend_Db (or some PDO front) to bring a cleaner OOP setup.
+    - Need to complete the design of the data to be used by the system.
+
+

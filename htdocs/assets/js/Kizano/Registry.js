@@ -28,7 +28,6 @@
  */
 
 if ( typeof(Kizano) === "undefined" ) { alert("Registry depends on Kizano."); return false; }
-"use strict";
 
 /**
  * 
