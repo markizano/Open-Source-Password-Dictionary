@@ -27,8 +27,25 @@
  *
  */
 
-
 //http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js
+
+typeof(console) !== "undefined" && console.log("GO!"); //DEBUG
+
+// jQuery should be included before we get this far (e.g. it should be in <head> before this is included)
+// Intentionally stop here because it would be bad otherwise...
+if (typeof(jQuery) === "undefined") { alert("I require jQuery ._."); return false; }
+
+typeof(console) !== "undefined" && console.log("OK"); //DEBUG
+
+(function ($) {
+    // We should also have included the loader in <head> as well. It's the only crucial component to hardcode.
+    typeof (Kizano.Loader) !== "undefined";
+
+    $(document).ready(function() {
+        $(document.body).html("<div id='page'><span id='error'></span><br /><div id='content'></div></div>");
+    });
+
+})(jQuery);
 
 /*
  @TODO: Here, I want to create an instance of the necessary library classes and begin the asynchronous
@@ -41,10 +58,16 @@
     - Start (User visits the site for the first time ever)
         - Bootstrap (Create required object instances and init data).
             - Keybindings: First overwrite arbitrary keybindings to keep the page safe.
+                - document.unload(): Overload this to prevent the user from leaving the page without
+                    explicit confirmation.
+                - document.refresh(): Keep the user from pinging the server constantly.
+                - document.history.go(): Overload the history searching for appropriate page viewing.
             - Request/Response: Create AJAX request-response objects to speak to the server on command.
             - Registry/Config: Setup global options and store them for persistant usage while the user is on this page.
             - Timeouts: Setup all timers and kickoff all cron-based events.
             - Layout: Draw up the basic HTML structure that will pose as the layout for this site.
+                - HTML Structure from JSON-XSL translation.
+                - CSS Manager. I believe there are libraries that support this.
         - Determine the current request based on the params in the URL.
         - Fetch the request accordingly from the server.
         - Render the result on the page and return to even-based orientation.
@@ -58,3 +81,4 @@
     - End
 */
 
+/*jslint bitwise: true, browser: true, evil: true, plusplus: true, maxerr: 50, indent: 4 */
