@@ -27,7 +27,7 @@
  *
  */
 
-if ( typeof(Kizano) === "undefined" ) { alert("Registry depends on Kizano."); return false; }
+if ( typeof(ospd) === "undefined" ) { alert("Registry depends on ospd."); return false; }
 
 /**
  * Responsible for static storage of the system. Every object will refer to this if they need to
@@ -38,7 +38,7 @@ if ( typeof(Kizano) === "undefined" ) { alert("Registry depends on Kizano."); re
  * @TODO: Get this to communicate its needs to the server. Be sure to use the global config object
  *   for loading default options in case we have a fresh session on our plates.
  */
-Kizano.Registry = (function (options) {
+ospd.Registry = (function (options) {
     var self = {
     },
     _reg = {};

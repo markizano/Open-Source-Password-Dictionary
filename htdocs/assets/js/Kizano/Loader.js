@@ -27,7 +27,7 @@
  *
  */
 
-if (typeof (Kizano) === "undefined") { alert("Loader depends on Kizano."); return false; }
+if (typeof (ospd) === "undefined") { alert("Loader depends on ospd."); return false; }
 if (typeof (jQuery) === "undefined") { alert("Loader depends on jQuery."); return false; }
 
 /**
@@ -35,7 +35,7 @@ if (typeof (jQuery) === "undefined") { alert("Loader depends on jQuery."); retur
  * something is available in the system, and also fetching resources from the server to import them
  * into the system.
  */
-Kizano.Loader = (function ($) {
+ospd.Loader = (function ($) {
     var
         self = {},
         /*private*/ that = {
@@ -56,19 +56,19 @@ Kizano.Loader = (function ($) {
         var a, c, gl;
 
         // Define a list of global variables to check.
-        gl = [window, document, navigator, Kizano];
+        gl = [window, document, navigator];
         // First, determine the contents of the loop.
         if ( typeof (target) == "string" && target.indexOf(".") !== -1 ) {
             for (var i in gl) {
-                for ( a = target.split(/\./g), Kiz = gl[i], c = a.shift(); a.length > 0; Kiz = Kiz[c], c = a.shift() ) {
-//console.log({ t: Kiz[c], Kiz: Kiz, i: i, c: c, a: a });
-                    if ( typeof(Kiz[c]) === "undefined") {
+                for ( a = target.split(/\./g), obj = gl[i], c = a.shift(); a.length > 0; obj = obj[c], c = a.shift() ) {
+//console.log({ t: obj[c], obj: obj, i: i, c: c, a: a });
+                    if ( typeof(obj[c]) === "undefined") {
                         return false;
                     }
                 }
 
                 // If we iterated without a hitch, then the target must exist.
-                return (typeof(Kiz[c]) !== "undefined");
+                return (typeof(obj[c]) !== "undefined");
             }
 
             return false; // If we iterate as deep as provided, then it doesn't exist.
@@ -166,11 +166,11 @@ Kizano.Loader = (function ($) {
 })(jQuery);
 
 var use = function (target) {
-    return Kizano.Loader.load(target);
+    return ospd.Loader.load(target);
 };
 
 /*
-  ok(use("Kizano.Registry"));
-  ok(use(["Kizano.View", "Kizano.Layout"])); // @TODO!
+  ok(use("ospd.Registry"));
+  ok(use(["ospd.View", "ospd.Layout"])); // @TODO!
 */
 

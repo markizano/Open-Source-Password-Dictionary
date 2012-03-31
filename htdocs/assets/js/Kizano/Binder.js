@@ -27,13 +27,20 @@
  *
  */
 
-if (typeof (Kizano) === "undefined") { alert("Loader depends on Kizano."); return false; }
+if (typeof (ospd) === "undefined") { alert("Loader depends on ospd."); return false; }
 
 /**
  * Handles the binding of keys to the window. Global functions go here only!
  */
-Kizano.Binder = (function ($) {
-    var self = {}, /*private*/ that = {};
+ospd.Binder = (function ($) {
+    var self = {}, /*private*/ that = {
+    	funcs: [
+        	'load',
+            'unload',
+            'refresh',
+            'history',
+    	]
+    };
 
     self.load = function () {
         // SIGINIT;
@@ -52,18 +59,20 @@ Kizano.Binder = (function ($) {
         return false;
     };
 
-    self.navigate = function (dir) {
+    self.history = function (dir) {
         // Send a signal SIGNAV, offset (dir).
         return false;
     };
 
     self.init = function () {
-        var func = [
-            'unload',
-            'refresh',
-        ], i;
-        for (i in func) {
-            $(document).bind(func, self[func]);
+        var i;
+
+		$(that.funcs).each(function (i, func) {
+			$(document).bind(func, self[func]);
+		});
+
+        for (i in that.funcs) {
+            $(document).bind(that.funcs[i], self[that.funcs[i]]);
         }
 
         history.go = self.navigate;

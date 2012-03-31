@@ -20,7 +20,7 @@ print Kizano_Misc::var_dump(array(
     <head>
         <title>Debugging</title>
         <script type="text/javascript">//<![CDATA[
-var Kizano = {}, DEBUG = true;
+var ospd = {}, DEBUG = true;
         //]]></script>
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/?class=Kizano.Loader,default"></script>

@@ -37,7 +37,7 @@ typeof(console) !== "undefined" && console.log("OK"); //DEBUG
 
 (function ($) {
     // We should also have included the loader in <head> as well. It's the only crucial component to hardcode.
-    typeof (Kizano.Loader) !== "undefined";
+    typeof (ospd.Loader) !== "undefined";
 
     $(document).ready(function() {
         $(document.body).html("<div id='page'><span id='error'></span><br /><div id='content'></div></div>");
@@ -90,6 +90,7 @@ typeof(console) !== "undefined" && console.log("OK"); //DEBUG
 	Binder      : Base Object for managing major keybindings. It's role is similar to that of your 
 		window manager; it will manage hotkeys/events dealing with the window, while each module can
 		independently hold its own hotkey overrides/additions.
+	Messaging   : For communicating messages with the end-user, the server, and a debug log somewhere...
 
 */
 
