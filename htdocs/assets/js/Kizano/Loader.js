@@ -42,6 +42,15 @@ Kizano.Loader = (function ($) {
             cache: {},
         };
 
+    /**
+     * Checks to see if an object exists or has been defined, rather.
+     * It should return if you pass a string or the object test itself.
+     * This also checks recursively along a string of objects (e.g. document.location.href).
+     * Checks along all the global namespaces available in a browser
+     *
+     * @param target string The target to check for existance.
+     * @return boolean
+     */
     self.exists = function (target) {
         if ( typeof (target) === "undefined" ) { return false; }
         var a, c, gl;
@@ -73,9 +82,26 @@ Kizano.Loader = (function ($) {
         return false;
     };
 
+	/**
+	 * Makes a request to the server for a class and imports it into the system via eval.
+	 *
+	 * @param target  string|array  The target(s) to import.
+	 * @return array  The object(s) imported.
+	 */
     self.request = function (target) {
         if ( self.exists(target) ) {
             return typeof (target) === "string"? eval(target): target;
+        }
+        var result = [];
+
+        if ($.isArray(target)) {
+            $.each(target, function (i, cls) {
+                self.exists(cls) && result.push(typeof (cls) === "string"? eval(cls): target);
+                target.splice(i, 1);
+                return true;
+            });
+
+            target = target.join(',');
         }
 
         $.ajax({
@@ -124,6 +150,12 @@ Kizano.Loader = (function ($) {
         });
     };
 
+    /**
+     * Loads an object into the system dynamically from the server.
+     *
+     * @param target		string|array		The object(s) to import to the system.
+     * @return array  The object(s) loaded.
+     */
     self.load = function (target) {
         if (self.exists(target.replace(/\x2F/g, "."))) { return that; }
         return self.request(target);
@@ -139,7 +171,6 @@ var use = function (target) {
 
 /*
   ok(use("Kizano.Registry"));
-  ok(use(["Kizano.View", "Kizano.Layout"]));
+  ok(use(["Kizano.View", "Kizano.Layout"])); // @TODO!
 */
 
-/*jslint bitwise: true, browser: true, sloppy: false, evil: true, plusplus: true, maxerr: 50, indent: 4 */

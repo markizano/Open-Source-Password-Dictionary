@@ -66,8 +66,11 @@ typeof(console) !== "undefined" && console.log("OK"); //DEBUG
             - Layout: Draw up the basic HTML structure that will pose as the layout for this site.
                 - HTML Structure from JSON-XSL translation.
                 - CSS Manager. I believe there are libraries that support this.
+            - Plugins: Need the ability to hook in modules to dynamically modify the page as we need
+                for custom components of projects.
+            - Controller: Load up the current controller handling this request.
         - Determine the current request based on the params in the URL.
-        - Fetch the request accordingly from the server.
+        - Fetch the request accordingly from the server via controller calls to request-response modules.
         - Render the result on the page and return to even-based orientation.
         // ...
     - OnClose -
@@ -77,6 +80,16 @@ typeof(console) !== "undefined" && console.log("OK"); //DEBUG
             - Close open windows.
             - End session.
     - End
+
+
+ Components needed:
+	Registry    : Global object for persisting objects and configurations across pageloads
+		(e.g. the user leaves the site and comes back).
+	Config      : Global per-request object for storing key-value config/option pairs.
+	Loader      : Used for loading modules and objects dynamically from the server.
+	Binder      : Base Object for managing major keybindings. It's role is similar to that of your 
+		window manager; it will manage hotkeys/events dealing with the window, while each module can
+		independently hold its own hotkey overrides/additions.
+
 */
 
-/*jslint bitwise: true, browser: true, evil: true, plusplus: true, maxerr: 50, indent: 4 */
