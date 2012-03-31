@@ -30,9 +30,13 @@
 if ( typeof(Kizano) === "undefined" ) { alert("Registry depends on Kizano."); return false; }
 
 /**
+ * Responsible for static storage of the system. Every object will refer to this if they need to
+ * persist data across requests. The data stored in this object is auto-synced with the server's
+ * session and this object loads that data each time the page is loaded. Therefore, all options stored
+ * by the object will persist across requests.
  * 
- *
- * 
+ * @TODO: Get this to communicate its needs to the server. Be sure to use the global config object
+ *   for loading default options in case we have a fresh session on our plates.
  */
 Kizano.Registry = (function (options) {
     var self = {
@@ -64,4 +68,4 @@ Kizano.Registry = (function (options) {
     return that;
 });
 
-/*jslint bitwise: true, browser: true, evil: true, plusplus: true, maxerr: 50, indent: 4 */
+

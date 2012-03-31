@@ -27,3 +27,52 @@
  *
  */
 
+if (typeof (Kizano) === "undefined") { alert("Loader depends on Kizano."); return false; }
+
+/**
+ * Handles the binding of keys to the window. Global functions go here only!
+ */
+Kizano.Binder = (function ($) {
+    var self = {}, /*private*/ that = {};
+
+    self.load = function () {
+        // SIGINIT;
+        // Preload all classes necessary for single-page execution here.
+        // Create instances and assign to the registry.
+        // Fire preloader hooks for each plugin loaded.
+    };
+
+    self.unload = function () {
+        // Find the message system and send a signal SIGTERM.
+        return false;
+    };
+
+    self.refresh = function () {
+        // Find a message system and send a signal SIGHUP.
+        return false;
+    };
+
+    self.navigate = function (dir) {
+        // Send a signal SIGNAV, offset (dir).
+        return false;
+    };
+
+    self.init = function () {
+        var func = [
+            'unload',
+            'refresh',
+        ], i;
+        for (i in func) {
+            $(document).bind(func, self[func]);
+        }
+
+        history.go = self.navigate;
+
+        return self;
+    }
+
+    $(document).ready(self.init);
+    return self;
+})(jQuery);
+
+
