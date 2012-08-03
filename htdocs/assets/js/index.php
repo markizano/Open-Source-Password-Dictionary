@@ -43,6 +43,14 @@ HEADER
 
 ini_set('html_errors', false);
 
+define('DS', DIRECTORY_SEPARATOR);
+define('BASE_DIR', dirname(__FILE__));
+
+# Ensure we can properly include our libraries.
+set_include_path( join( PATH_SEPARATOR, array(BASE_DIR, get_include_path()) ) );
+
+require 'Zend/Loader.php';
+
 /**
  * JavaScriptResource. Fetches files based on a class name and prints them for inclusion on the client.
  */
@@ -62,7 +70,9 @@ class JSR
      */
     public static function isValidClassName($class)
     {
-        return preg_match('/^[0-9A-Za-z][0-9A-Za-z_.,]+$/i', $class) && file_exists(self::translateClassName($class));
+    	preg_match('/^[0-9A-Za-z][0-9A-Za-z_.,]+$/i', $class) || syslog(LOG_WARNING, "\n[$class] failed preg_match.\n");
+    	Zend_Loader::isReadable(self::translateClassName($class)) || syslog(LOG_WARNING, "\n[$class] doesn't exist!\n");
+        return preg_match('/^[0-9A-Za-z][0-9A-Za-z_.,]+$/i', $class) && Zend_Loader::isReadable(self::translateClassName($class));
     }
 
     /**
@@ -96,19 +106,30 @@ class JSR
     public static function main($_class)
     {
         header('Content-Type: application/x-javascript; charset=utf-8');
-        $jsr = new JSR;
 
+        $jsr = new JSR;
+        $_404 = false;
+        $errors = array();
+
+		ob_start();
         foreach (explode(',', $_class) as $class) {
             if (JSR::isValidClassName($class)) {
                 print JSR::jsmin_file(JSR::translateClassName($class));
             } else {
-                header('HTTP/1.1 404 Not Found');
-                print json_encode(array(
-                    'error' => 'Invalid Class Name',
+            	$_404 = true;
+                $errors[] = array(
+                    'error' => "Could not load $class.",
                     // There may be more info to add here.
-                ));
+                );
             }
         }
+
+        if ($_404) {
+        	header('HTTP/1.1 404 Not Found');
+    		print 'var errno = (' . json_encode($errors) . ');';
+		}
+
+        print ob_get_clean();
     }
 }
 
